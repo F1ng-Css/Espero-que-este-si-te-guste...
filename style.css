@@ -1,0 +1,290 @@
+:root{
+  --bg:#fdf6e6; --bg2:#ffeec4; --ink:#3b3018; --soft:#836f48; --card:#fffdf6;
+  --oro:#f5b81c; --oro2:#ffd95c; --linea:rgba(131,111,72,.22); --sombra:rgba(140,100,10,.18);
+  --doodle:#fff;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#171208; --bg2:#241a0c; --ink:#f8efd9; --soft:#cbb68b; --card:#231b10;
+    --linea:rgba(248,239,217,.16); --sombra:rgba(0,0,0,.5); --doodle:#ffe9a8;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ---------- botón de música ---------- */
+.btn-musica{
+  position:fixed;right:18px;bottom:18px;z-index:30;
+  width:50px;height:50px;border-radius:50%;border:1px solid var(--linea);
+  background:var(--card);color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 24px var(--sombra);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-musica:hover{transform:scale(1.08)}
+.btn-musica.silenciado .onda{opacity:.25}
+.btn-musica.sonando .onda1{animation:pulsoOnda 1.6s ease-in-out infinite}
+.btn-musica.sonando .onda2{animation:pulsoOnda 1.6s ease-in-out .2s infinite}
+@keyframes pulsoOnda{0%,100%{opacity:.5}50%{opacity:1}}
+
+@media (max-width:480px){
+  .btn-musica{right:14px;bottom:14px;width:44px;height:44px}
+}
+
+/* ---------- fondo tipo video: crossfade lento entre fotos de temporada ---------- */
+#fondo-video{
+  position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--bg);
+}
+.fondo-capa{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;
+  animation:
+    cicloFondo 30s ease-in-out infinite,
+    zoomFondo 30s ease-in-out infinite;
+}
+.fondo-capa:nth-child(1){animation-delay:0s,0s}
+.fondo-capa:nth-child(2){animation-delay:6s,6s}
+.fondo-capa:nth-child(3){animation-delay:12s,12s}
+.fondo-capa:nth-child(4){animation-delay:18s,18s}
+.fondo-capa:nth-child(5){animation-delay:24s,24s}
+@keyframes cicloFondo{
+  0%{opacity:0}
+  4%{opacity:1}
+  17%{opacity:1}
+  21%{opacity:0}
+  100%{opacity:0}
+}
+@keyframes zoomFondo{
+  0%{transform:scale(1.02)}
+  50%{transform:scale(1.12)}
+  100%{transform:scale(1.02)}
+}
+#fondo-tinte{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(20,14,4,.15),rgba(20,14,4,.45) 70%,rgba(10,7,2,.6)),
+    radial-gradient(ellipse at 50% -10%,rgba(255,238,196,.35),transparent 60%);
+}
+@media (prefers-color-scheme:dark){
+  #fondo-tinte{
+    background:
+      linear-gradient(180deg,rgba(10,7,2,.55),rgba(10,7,2,.75) 70%,rgba(5,3,1,.85)),
+      radial-gradient(ellipse at 50% -10%,rgba(36,26,12,.4),transparent 60%);
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .fondo-capa{animation:none;opacity:.55}
+  .fondo-capa:nth-child(n+2){display:none}
+}
+#petalos,#doodles,#mariposas{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.petalo{position:absolute;top:-10vh;background:linear-gradient(160deg,var(--oro2),var(--oro));
+  border-radius:60% 40% 58% 42%/72% 66% 34% 28%;animation:caer linear infinite}
+@keyframes caer{
+  0%{transform:translate(0,-10vh) rotate(0)}
+  50%{transform:translate(26px,50vh) rotate(200deg)}
+  100%{transform:translate(-16px,115vh) rotate(430deg)}
+}
+.doodle{position:absolute;color:var(--doodle);opacity:0;animation:doodlePop 5s ease-in-out infinite;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.06))}
+@keyframes doodlePop{0%,100%{opacity:0;transform:scale(.55)}45%,60%{opacity:.8;transform:scale(1)}}
+.mariposa{position:absolute;animation:volar linear infinite}
+.mariposa svg{width:100%;height:auto;animation:aletazo 3s ease-in-out infinite}
+.ala{transform-origin:50% 50%;animation:aletear .3s ease-in-out infinite alternate}
+@keyframes volar{0%{transform:translate(-12vw,0)}100%{transform:translate(112vw,0)}}
+@keyframes aletazo{0%,100%{transform:translateY(-14px) rotate(-5deg)}50%{transform:translateY(14px) rotate(5deg)}}
+@keyframes aletear{from{transform:scaleX(1)}to{transform:scaleX(.35)}}
+
+/* ---------- estructura de pasos ---------- */
+.paso{
+  position:relative;z-index:2;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 20px;
+  animation:fadeInUp .8s ease both;
+}
+.oculto{display:none !important}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:none}
+}
+
+.seccion-contenido{
+  max-width:560px;width:100%;text-align:center;
+  background:var(--card);backdrop-filter:blur(10px) saturate(1.1);
+  -webkit-backdrop-filter:blur(10px) saturate(1.1);
+  border:1px solid var(--linea);border-radius:26px;
+  padding:clamp(30px,6vw,46px) clamp(22px,5vw,38px);
+  box-shadow:0 22px 50px var(--sombra);
+}
+.seccion-contenido.angosto{max-width:440px}
+.seccion-contenido.ancho{max-width:800px}
+
+.titulo{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
+  font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:8px}
+.subtitulo{color:var(--soft);margin-bottom:34px}
+
+/* ---------- portada ---------- */
+#paso-portada{padding:0;overflow:hidden}
+.portada-fondo{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  filter:saturate(1.05);transform:scale(1.05);
+}
+.portada-oscurecer{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(20,14,4,.35),rgba(20,14,4,.62) 60%,rgba(10,7,2,.78));
+}
+.portada-contenido{position:relative;z-index:2;text-align:center;color:#fffdf6;padding:20px}
+.flor-animada{
+  width:150px;height:150px;margin:0 auto 22px;border-radius:50%;overflow:hidden;
+  border:4px solid rgba(255,253,246,.85);
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+  animation:flotarFlor 5s ease-in-out infinite, girarSuave 30s linear infinite;
+}
+.flor-img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes flotarFlor{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes girarSuave{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(6deg)}}
+.para{font-family:"Caveat",cursive;font-size:1.5rem;opacity:.9;letter-spacing:.05em}
+.nombre{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;
+  font-size:clamp(2.6rem,10vw,4.2rem);margin:2px 0 30px;
+  text-shadow:0 6px 24px rgba(0,0,0,.4)}
+
+/* ---------- botones ---------- */
+.btn{
+  font-family:"Caveat",cursive;font-size:1.35rem;border:none;border-radius:999px;
+  padding:15px 38px;cursor:pointer;transition:transform .25s,box-shadow .25s;
+}
+.btn:hover{transform:translateY(-3px) rotate(-1deg)}
+.btn-primario{
+  background:linear-gradient(140deg,var(--oro2),var(--oro));color:#4a3a0c;
+  box-shadow:0 10px 26px rgba(0,0,0,.28);
+}
+.btn-secundario{
+  background:var(--card);color:var(--ink);border:1px solid var(--linea);
+  box-shadow:0 8px 20px var(--sombra);
+}
+
+/* ---------- la carta ---------- */
+.carta-wrap{display:flex;justify-content:center;width:100%}
+.carta{
+  max-width:480px;width:100%;background:var(--card);border:1px solid var(--linea);
+  border-radius:22px;padding:clamp(28px,6vw,44px);box-shadow:0 20px 48px var(--sombra);
+  text-align:center;position:relative;
+  animation:abrirCarta .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes abrirCarta{
+  from{opacity:0;transform:translateY(30px) scale(.94) rotate(-1deg)}
+  to{opacity:1;transform:none}
+}
+.sello{font-size:2.4rem;display:block;margin-bottom:18px}
+.carta-texto{
+  font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:1.35rem;
+  line-height:1.75;color:var(--ink);margin-bottom:30px;
+}
+
+/* ---------- flores interactivas ---------- */
+.fila-flores{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.flor-btn{
+  font-size:2.6rem;background:var(--card);border:1px solid var(--linea);
+  border-radius:50%;width:88px;height:88px;cursor:pointer;
+  box-shadow:0 10px 22px var(--sombra);transition:transform .25s,box-shadow .25s;
+  display:flex;align-items:center;justify-content:center;
+}
+.flor-btn:hover{transform:translateY(-5px) scale(1.05)}
+.flor-btn:active{transform:scale(.94)}
+
+.flor-foto{
+  padding:0;overflow:hidden;background:var(--card);
+  border:3px solid var(--card);
+  box-shadow:0 10px 22px var(--sombra),0 0 0 1px var(--linea);
+}
+.flor-foto img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .4s ease;
+}
+.flor-foto:hover img{transform:scale(1.12)}
+.mensaje-flor{
+  min-height:1.6em;font-family:"Caveat",cursive;font-size:1.5rem;color:var(--ink);
+  margin-bottom:26px;transition:opacity .4s ease;
+}
+
+/* ---------- overlay + regalo ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:20;
+  background:rgba(10,7,2,.78);
+  display:flex;align-items:center;justify-content:center;
+  animation:fadeIn .5s ease both;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.regalo-wrap{text-align:center}
+.regalo{
+  background:none;border:none;cursor:pointer;position:relative;
+  width:140px;height:140px;display:flex;align-items:center;justify-content:center;
+}
+.regalo-caja{font-size:5.5rem;display:block;animation:bambolear 2s ease-in-out infinite}
+.regalo-tapa{
+  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  font-size:2rem;opacity:.9;
+}
+@keyframes bambolear{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.regalo.abierto .regalo-caja{animation:abrirRegalo .6s ease forwards}
+@keyframes abrirRegalo{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.3) rotate(10deg)}
+  100%{transform:scale(0);opacity:0}
+}
+.regalo-texto{
+  font-family:"Caveat",cursive;font-size:1.4rem;color:#fffdf6;margin-top:14px;
+}
+
+/* ---------- mensaje final ---------- */
+.final-texto{
+  font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;
+  font-size:clamp(1.3rem,4vw,1.7rem);line-height:1.8;margin-bottom:32px;
+}
+
+/* ---------- sobre ustedes ---------- */
+.ustedes-intro{font-family:"Caveat",cursive;font-size:1.6rem;color:var(--soft);margin-bottom:14px}
+.ustedes-texto{
+  font-family:"Cormorant Garamond",Georgia,serif;font-size:1.25rem;line-height:1.85;
+  margin-bottom:32px;
+}
+
+/* ---------- juego elige una flor ---------- */
+.galeria-flores{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.flor-galeria{
+  background:var(--card);border:1px solid var(--linea);border-radius:20px;
+  overflow:hidden;box-shadow:0 14px 32px var(--sombra);
+  animation:fadeInUp .7s ease both;
+}
+.flor-galeria:nth-child(2){animation-delay:.12s}
+.flor-galeria:nth-child(3){animation-delay:.24s}
+.flor-galeria img{
+  width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.flor-galeria:hover img{transform:scale(1.06)}
+.flor-galeria figcaption{
+  padding:16px 14px 20px;font-family:"Cormorant Garamond",Georgia,serif;
+  font-style:italic;font-size:1.02rem;line-height:1.5;color:var(--ink);
+}
+
+@media (max-width:640px){
+  .galeria-flores{grid-template-columns:1fr;max-width:320px;margin:0 auto}
+}
+
+@media (max-width:480px){
+  .fila-flores{gap:12px}
+  .flor-btn{width:74px;height:74px;font-size:2.1rem}
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un pequeño detalle para ti 🌻</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="fondo-video">
+  <div class="fondo-capa" style="background-image:url('images/tulipanes-sol.jpg')"></div>
+  <div class="fondo-capa" style="background-image:url('images/mariposa-blancas.jpg')"></div>
+  <div class="fondo-capa" style="background-image:url('images/buganvilia.jpg')"></div>
+  <div class="fondo-capa" style="background-image:url('images/atardecer-aves.jpg')"></div>
+  <div class="fondo-capa" style="background-image:url('images/atardecer-luna.jpg')"></div>
+</div>
+<div id="fondo-tinte"></div>
+
+<audio id="musica-fondo" loop preload="auto">
+  <source src="audio/iris.mp3" type="audio/mpeg">
+</audio>
+<button id="btn-musica" class="btn-musica" aria-label="Silenciar música" title="Música">
+  <svg class="icono-sonido" viewBox="0 0 24 24" width="20" height="20">
+    <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/>
+    <path class="onda onda1" d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path class="onda onda2" d="M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<div id="petalos"></div>
+<div id="doodles"></div>
+
+<!-- PASO 1 · PORTADA -->
+<section class="paso" id="paso-portada" data-paso="1">
+  <div class="portada-fondo" style="background-image:url('images/flor1.jpg')"></div>
+  <div class="portada-oscurecer"></div>
+  <div class="portada-contenido">
+    <div class="flor-animada">
+      <img src="images/flor3.jpg" alt="Flor amarilla" class="flor-img">
+    </div>
+    <p class="para">Para</p>
+    <h1 class="nombre">Cielo</h1>
+    <button class="btn btn-primario" id="btn-portada">Tengo algo para ti 🌻</button>
+  </div>
+</section>
+
+<!-- PASO 2 · LA CARTA -->
+<section class="paso oculto" id="paso-carta" data-paso="2">
+  <div class="carta-wrap">
+    <div class="carta">
+      <span class="sello">💌</span>
+      <p class="carta-texto">
+        No sabía muy bien cómo hacer este pequeño detalle,
+        así que decidí hacerlo de una manera diferente…
+      </p>
+      <button class="btn btn-secundario" id="btn-carta">Seguir leyendo</button>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 3 · FLORES INTERACTIVAS -->
+<section class="paso oculto" id="paso-flores" data-paso="3">
+  <div class="seccion-contenido">
+    <h2 class="titulo">Toca cada flor 🌼</h2>
+    <p class="subtitulo">Cada una guarda una pequeña razón.</p>
+
+    <div class="fila-flores">
+      <button class="flor-btn flor-foto" data-msg="Para alegrarte el día.">
+        <img src="images/tulipanes.jpg" alt="Tulipanes">
+      </button>
+      <button class="flor-btn flor-foto" data-msg="Porque me gustan las cosas sencillas.">
+        <img src="images/margarita.jpg" alt="Margarita">
+      </button>
+      <button class="flor-btn flor-foto" data-msg="Y porque quería sacarte una sonrisa.">
+        <img src="images/cosmos.jpg" alt="Cosmos">
+      </button>
+    </div>
+
+    <p class="mensaje-flor" id="mensaje-flor">&nbsp;</p>
+
+    <button class="btn btn-secundario oculto" id="btn-flores-continuar">Continuar</button>
+  </div>
+</section>
+
+<!-- PASO 4 · LA SORPRESA -->
+<section class="paso oculto" id="paso-sorpresa" data-paso="4">
+  <div class="seccion-contenido">
+    <button class="btn btn-primario" id="btn-sorpresa">Hay algo más…</button>
+  </div>
+</section>
+
+<div class="overlay oculto" id="overlay">
+  <div class="regalo-wrap">
+    <button class="regalo" id="regalo-btn" aria-label="Abrir regalo">
+      <span class="regalo-tapa">🎀</span>
+      <span class="regalo-caja">🎁</span>
+    </button>
+    <p class="regalo-texto" id="regalo-texto">Toca para abrir</p>
+  </div>
+</div>
+
+<!-- PASO 5 · MENSAJE FINAL -->
+<section class="paso oculto" id="paso-final" data-paso="5">
+  <div class="seccion-contenido">
+    <p class="final-texto">
+      Si esto consiguió sacarte aunque sea una pequeña sonrisa,<br>
+      entonces valió la pena hacerlo. ✨
+    </p>
+    <button class="btn btn-secundario" id="btn-final">Seguir</button>
+  </div>
+</section>
+
+<!-- PASO 6 · SOBRE USTEDES -->
+<section class="paso oculto" id="paso-ustedes" data-paso="6">
+  <div class="seccion-contenido angosto">
+    <p class="ustedes-intro">Y quién sabe…</p>
+    <p class="ustedes-texto">
+      Quizás todavía nos falten muchas cosas por conocer<br>
+      el uno del otro. Pero me gustaría descubrirlas poco a poco.
+    </p>
+    <button class="btn btn-secundario" id="btn-ustedes">Sigamos</button>
+  </div>
+</section>
+
+<!-- PASO 7 · LAS TRES FLORES -->
+<section class="paso oculto" id="paso-juego" data-paso="7">
+  <div class="seccion-contenido ancho">
+    <div class="galeria-flores">
+      <figure class="flor-galeria">
+        <img src="images/cosmos-feliz.jpg" alt="Cosmos rosado">
+        <figcaption>Una pequeña dosis de sol para tu día ☀️</figcaption>
+      </figure>
+      <figure class="flor-galeria">
+        <img src="images/hortensia-feliz.jpg" alt="Hortensia azul">
+        <figcaption>Una sonrisa, porque sí 💛</figcaption>
+      </figure>
+      <figure class="flor-galeria">
+        <img src="images/rosa-feliz.jpg" alt="Rosa roja">
+        <figcaption>Esta flor no tiene explicación... simplemente me gustó y quise dejártela aquí 🌼</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div id="mariposas"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
