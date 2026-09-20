@@ -1,6 +1,12 @@
 (function () {
   "use strict";
 
+  /* ============ NOMBRE DE LA PERSONA ============ */
+  /* Cambia solo esta línea para reutilizar la plantilla con otro nombre */
+  var NOMBRE_DESTINATARIO = "Cielo";
+  var elNombre = document.getElementById("nombre-destinatario");
+  if (elNombre) elNombre.textContent = NOMBRE_DESTINATARIO;
+
   /* ============ FONDO VIVO: pétalos, doodles, mariposas ============ */
   function iniciarFondo() {
     var capaPetalos = document.getElementById("petalos");
@@ -64,12 +70,38 @@
   }
 
   /* ============ NAVEGACIÓN ENTRE PASOS ============ */
+  var puntosProgreso = document.querySelectorAll(".progreso .punto");
+
+  function actualizarProgreso(numeroPaso) {
+    puntosProgreso.forEach(function (punto) {
+      var n = parseInt(punto.getAttribute("data-paso"), 10);
+      punto.classList.remove("activo", "completado");
+      if (n === numeroPaso) punto.classList.add("activo");
+      else if (n < numeroPaso) punto.classList.add("completado");
+    });
+  }
+
   function irAPaso(id) {
     var actual = document.querySelector(".paso:not(.oculto)");
-    if (actual) actual.classList.add("oculto");
     var siguiente = document.getElementById(id);
-    siguiente.classList.remove("oculto");
-    siguiente.scrollIntoView({ behavior: "smooth", block: "start" });
+    var numeroPaso = parseInt(siguiente.getAttribute("data-paso"), 10);
+
+    function mostrarSiguiente() {
+      if (actual) {
+        actual.classList.add("oculto");
+        actual.classList.remove("saliendo");
+      }
+      siguiente.classList.remove("oculto");
+      siguiente.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (numeroPaso) actualizarProgreso(numeroPaso);
+    }
+
+    if (actual) {
+      actual.classList.add("saliendo");
+      setTimeout(mostrarSiguiente, 420);
+    } else {
+      mostrarSiguiente();
+    }
   }
 
   /* ============ PASO 1 → 2: portada → carta ============ */
@@ -100,6 +132,10 @@
       floresTocadas.add(btn);
       if (floresTocadas.size === botonesFlor.length) {
         btnFloresContinuar.classList.remove("oculto");
+        btnFloresContinuar.classList.add("rebote");
+        setTimeout(function () {
+          btnFloresContinuar.classList.remove("rebote");
+        }, 750);
       }
     });
   });
@@ -113,12 +149,20 @@
   var regaloBtn = document.getElementById("regalo-btn");
   var regaloTexto = document.getElementById("regalo-texto");
 
+  var temporizadorInvitar = null;
+
   document.getElementById("btn-sorpresa").addEventListener("click", function () {
     overlay.classList.remove("oculto");
+    clearTimeout(temporizadorInvitar);
+    temporizadorInvitar = setTimeout(function () {
+      regaloBtn.classList.add("invitar");
+    }, 1400);
   });
 
   regaloBtn.addEventListener("click", function () {
     if (regaloBtn.classList.contains("abierto")) return;
+    clearTimeout(temporizadorInvitar);
+    regaloBtn.classList.remove("invitar");
     regaloBtn.classList.add("abierto");
     regaloTexto.textContent = "✨";
     setTimeout(function () {

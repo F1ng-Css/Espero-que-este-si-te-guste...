@@ -40,6 +40,24 @@ body{
   .btn-musica{right:14px;bottom:14px;width:44px;height:44px}
 }
 
+/* ---------- barra de progreso ---------- */
+.progreso{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:30;
+  display:flex;gap:8px;padding:8px 14px;border-radius:999px;
+  background:var(--card);border:1px solid var(--linea);
+  box-shadow:0 8px 20px var(--sombra);
+}
+.progreso .punto{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--linea);transition:background .4s ease,transform .4s ease,width .4s ease;
+}
+.progreso .punto.activo{background:var(--oro);transform:scale(1.15)}
+.progreso .punto.completado{background:var(--oro2);width:14px;border-radius:999px}
+@media (max-width:480px){
+  .progreso{top:10px;gap:6px;padding:6px 12px}
+  .progreso .punto{width:6px;height:6px}
+}
+
 /* ---------- fondo tipo video: crossfade lento entre fotos de temporada ---------- */
 #fondo-video{
   position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--bg);
@@ -115,6 +133,13 @@ body{
   from{opacity:0;transform:translateY(24px)}
   to{opacity:1;transform:none}
 }
+.paso.saliendo{
+  animation:fadeOutDown .45s ease both;
+}
+@keyframes fadeOutDown{
+  from{opacity:1;transform:none}
+  to{opacity:0;transform:translateY(-18px)}
+}
 
 .seccion-contenido{
   max-width:560px;width:100%;text-align:center;
@@ -135,7 +160,15 @@ body{
 #paso-portada{padding:0;overflow:hidden}
 .portada-fondo{
   position:absolute;inset:0;background-size:cover;background-position:center;
-  filter:saturate(1.05);transform:scale(1.05);
+  filter:saturate(1.05);
+  animation:kenBurns 16s ease-in-out infinite alternate;
+}
+@keyframes kenBurns{
+  0%{transform:scale(1.05) translate(0,0)}
+  100%{transform:scale(1.18) translate(-1.5%,-1.5%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .portada-fondo{animation:none;transform:scale(1.05)}
 }
 .portada-oscurecer{
   position:absolute;inset:0;
@@ -214,6 +247,13 @@ body{
   min-height:1.6em;font-family:"Caveat",cursive;font-size:1.5rem;color:var(--ink);
   margin-bottom:26px;transition:opacity .4s ease;
 }
+.rebote{animation:rebotar .7s cubic-bezier(.3,1.8,.4,1) both}
+@keyframes rebotar{
+  0%{opacity:0;transform:scale(.4) translateY(14px)}
+  55%{opacity:1;transform:scale(1.12) translateY(-6px)}
+  75%{transform:scale(.96) translateY(0)}
+  100%{transform:scale(1)}
+}
 
 /* ---------- overlay + regalo ---------- */
 .overlay{
@@ -234,6 +274,15 @@ body{
   font-size:2rem;opacity:.9;
 }
 @keyframes bambolear{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.regalo.invitar .regalo-caja{animation:bambolear 2s ease-in-out infinite,invitarShake 2.6s ease-in-out .3s infinite}
+@keyframes invitarShake{
+  0%,76%,100%{transform:rotate(0)}
+  78%{transform:rotate(-6deg) translateX(-3px)}
+  80%{transform:rotate(6deg) translateX(3px)}
+  82%{transform:rotate(-5deg) translateX(-2px)}
+  84%{transform:rotate(4deg) translateX(2px)}
+  86%{transform:rotate(0)}
+}
 .regalo.abierto .regalo-caja{animation:abrirRegalo .6s ease forwards}
 @keyframes abrirRegalo{
   0%{transform:scale(1)}
@@ -259,29 +308,64 @@ body{
 
 /* ---------- juego elige una flor ---------- */
 .galeria-flores{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+  column-count:3;
+  column-gap:22px;
+  perspective:1200px;
 }
 .flor-galeria{
-  background:var(--card);border:1px solid var(--linea);border-radius:20px;
+  display:block;
+  break-inside:avoid;
+  margin:0 0 22px;
+  background:var(--card);border:1px solid var(--linea);border-radius:22px;
   overflow:hidden;box-shadow:0 14px 32px var(--sombra);
-  animation:fadeInUp .7s ease both;
+  animation:apareceFlor .8s cubic-bezier(.2,.8,.2,1) both;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease;
+  will-change:transform;
 }
-.flor-galeria:nth-child(2){animation-delay:.12s}
-.flor-galeria:nth-child(3){animation-delay:.24s}
+.flor-galeria:nth-child(1){animation-delay:0s;transform:rotate(-2deg)}
+.flor-galeria:nth-child(2){animation-delay:.15s;transform:rotate(1.5deg)}
+.flor-galeria:nth-child(3){animation-delay:.3s;transform:rotate(-1deg)}
+@keyframes apareceFlor{
+  from{opacity:0;transform:translateY(40px) scale(.9) rotate(0deg)}
+  to{opacity:1}
+}
+.flor-galeria:hover{
+  transform:translateY(-10px) rotate(0deg) scale(1.03);
+  box-shadow:0 26px 48px var(--sombra);
+  z-index:2;
+}
 .flor-galeria img{
-  width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
-  transition:transform .5s ease;
+  width:100%;aspect-ratio:4/5;object-fit:cover;display:block;
+  transition:transform .6s ease,filter .6s ease;
 }
-.flor-galeria:hover img{transform:scale(1.06)}
+.flor-galeria:hover img{transform:scale(1.1);filter:saturate(1.15)}
 .flor-galeria figcaption{
-  padding:16px 14px 20px;font-family:"Cormorant Garamond",Georgia,serif;
+  padding:14px 16px 6px;font-family:"Cormorant Garamond",Georgia,serif;
   font-style:italic;font-size:1.02rem;line-height:1.5;color:var(--ink);
+  position:relative;
+  opacity:0;animation:apareceTexto .6s ease forwards;
 }
+.flor-galeria:nth-child(1) figcaption{animation-delay:.45s}
+.flor-galeria:nth-child(2) figcaption{animation-delay:.6s}
+.flor-galeria:nth-child(3) figcaption{animation-delay:.75s}
+@keyframes apareceTexto{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+.flor-galeria .firma{
+  display:block;padding:0 16px 16px;
+  font-family:"Caveat",cursive;font-weight:600;font-size:1.2rem;
+  color:var(--ink);
+  opacity:0;animation:apareceTexto .6s ease forwards;
+}
+.flor-galeria:nth-child(1) .firma{animation-delay:.6s}
+.flor-galeria:nth-child(2) .firma{animation-delay:.75s}
+.flor-galeria:nth-child(3) .firma{animation-delay:.9s}
 
 @media (max-width:640px){
-  .galeria-flores{grid-template-columns:1fr;max-width:320px;margin:0 auto}
+  .galeria-flores{column-count:1;max-width:340px;margin:0 auto}
+  .flor-galeria{transform:none}
+  .flor-galeria:hover{transform:translateY(-6px) scale(1.02)}
 }
 
 @media (max-width:480px){

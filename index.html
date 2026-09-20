@@ -30,6 +30,16 @@
   </svg>
 </button>
 
+<nav class="progreso" id="progreso" aria-label="Progreso">
+  <span class="punto" data-paso="1"></span>
+  <span class="punto" data-paso="2"></span>
+  <span class="punto" data-paso="3"></span>
+  <span class="punto" data-paso="4"></span>
+  <span class="punto" data-paso="5"></span>
+  <span class="punto" data-paso="6"></span>
+  <span class="punto" data-paso="7"></span>
+</nav>
+
 <div id="petalos"></div>
 <div id="doodles"></div>
 
@@ -42,7 +52,7 @@
       <img src="images/flor3.jpg" alt="Flor amarilla" class="flor-img">
     </div>
     <p class="para">Para</p>
-    <h1 class="nombre">Cielo</h1>
+    <h1 class="nombre" id="nombre-destinatario">Cielo</h1>
     <button class="btn btn-primario" id="btn-portada">Tengo algo para ti 🌻</button>
   </div>
 </section>
@@ -69,13 +79,13 @@
 
     <div class="fila-flores">
       <button class="flor-btn flor-foto" data-msg="Para alegrarte el día.">
-        <img src="images/tulipanes.jpg" alt="Tulipanes">
+        <img src="images/tulipanes.jpg" alt="Tulipanes" loading="lazy">
       </button>
       <button class="flor-btn flor-foto" data-msg="Porque me gustan las cosas sencillas.">
-        <img src="images/margarita.jpg" alt="Margarita">
+        <img src="images/margarita.jpg" alt="Margarita" loading="lazy">
       </button>
       <button class="flor-btn flor-foto" data-msg="Y porque quería sacarte una sonrisa.">
-        <img src="images/cosmos.jpg" alt="Cosmos">
+        <img src="images/cosmos.jpg" alt="Cosmos" loading="lazy">
       </button>
     </div>
 
@@ -130,14 +140,15 @@
   <div class="seccion-contenido ancho">
     <div class="galeria-flores">
       <figure class="flor-galeria">
-        <img src="images/cosmos-feliz.jpg" alt="Cosmos rosado">
+        <img src="images/cosmos-feliz.jpg" alt="Cosmos rosado" loading="lazy">
         <figcaption>Una pequeña dosis de sol para tu día ☀️</figcaption>
       </figure>
       <figure class="flor-galeria">
-        <img src="images/hortensia-feliz.jpg" alt="Hortensia azul">
-        <figcaption> Un pedacito de primevera que queria compartir contigo 🌻</figcaption>
+        <img src="images/hortensia-feliz.jpg" alt="Hortensia azul" loading="lazy">
+        <figcaption>Un pedacito de primavera que quería compartir contigo 🌻</figcaption>
+      </figure>
       <figure class="flor-galeria">
-        <img src="images/rosa-feliz.jpg" alt="Rosa roja">
+        <img src="images/rosa-feliz.jpg" alt="Rosa roja" loading="lazy">
         <figcaption>Esta flor no tiene explicación... simplemente me gustó y quise dejártela aquí 🌼</figcaption>
       </figure>
     </div>
